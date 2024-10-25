@@ -1,6 +1,6 @@
 import streamlit as st
 import plotly.express as px
-from backend.py import get_data
+from backend import get_data
 st.title("Weather Forecast For Upcoming Days")
 place = st.text_input("Place: ")
 days_choice = st.slider("Days to Forecast",
