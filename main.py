@@ -17,18 +17,23 @@ st.subheader(f"{option} for the next {days_choice} days in {place}")
 #only call the function if users types a place
 if place:
 # get the temperature and weather conditions
-    filtered_data = get_data(place, days_choice)
+    try:
+        filtered_data = get_data(place, days_choice)
+    
+        if option == 'Temperature':
+            temperatures = [dict['main']['temp'] / 10 for dict in filtered_data]
+            dates = [dict['dt_txt'] for dict in filtered_data]
+        #Create temperature plot
+            figure = px.line(x=dates, y=temperatures, labels={"x": "Date", "y": "Temperature (C)"})
+            st.plotly_chart(figure)
 
-    if option == 'Temperature':
-        temperatures = [dict['main']['temp'] for dict in filtered_data]
-        dates = [dict['dt_txt'] for dict in filtered_data]
-    #Create temperature plot
-        figure = px.line(x=dates, y=temperatures, labels={"x": "Date", "y": "Temperature (C)"})
-        st.plotly_chart(figure)
+        if option == 'Weather Conditions':
+            images = {'Clear': 'images/clear.png', 'Clouds': 'images/cloud.png', 
+                    'Rain': 'images/rain.png', 'Snow': 'images/snow.png'}
+            weather_conditions = [dict['weather'][0]['main'] for dict in filtered_data]
+            image_paths = [images[condition] for condition in weather_conditions]
+            st.image(image_paths, width=115)
 
-    if option == 'Weather Conditions':
-        images = {'Clear': 'images/clear.png', 'Clouds': 'images/cloud.png', 
-                'Rain': 'images/rain.png', 'Snow': 'images/snow.png'}
-        weather_conditions = [dict['weather'][0]['main'] for dict in filtered_data]
-        image_paths = [images[condition] for condition in weather_conditions]
-        st.image(image_paths, width=115)
+    except KeyError:
+        st.write("That place does not exist. Please type a city name.")
+    
