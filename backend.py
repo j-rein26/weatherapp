@@ -8,7 +8,7 @@ WEATHER_API = os.getenv("WEATHER_API")
 
 
 def get_data(place, forecast_days=None):
-    url = f"http://api.openweathermap.org/data/2.5/forecast?q={place}&appid={WEATHER_API}"
+    url = f"http://api.openweathermap.org/data/2.5/forecast?q={place}&units=metric&appid={WEATHER_API}"
     response = requests.get(url)
     data = response.json()
     filtered_data = data["list"]

@@ -21,7 +21,7 @@ if place:
         filtered_data = get_data(place, days_choice)
     
         if option == 'Temperature':
-            temperatures = [dict['main']['temp'] / 10 for dict in filtered_data]
+            temperatures = [dict['main']['temp'] for dict in filtered_data]
             dates = [dict['dt_txt'] for dict in filtered_data]
         #Create temperature plot
             figure = px.line(x=dates, y=temperatures, labels={"x": "Date", "y": "Temperature (C)"})
